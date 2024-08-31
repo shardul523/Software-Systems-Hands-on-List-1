@@ -1,5 +1,16 @@
-// NAME - SHARDUL SISODIYA
-// ROLL NO - MT2024140
+/*
+============================================================================
+Name : 5.c
+
+Author : Shardul Sisodiya
+
+Description :
+Write a program to create five new files with infinite loop. Execute the program in the background
+and check the file descriptor table at /proc/pid/fd.
+
+Date: 10th Aug, 2024.
+============================================================================
+*/
 
 #include <string.h>
 #include <stdio.h>
@@ -21,7 +32,16 @@ int main(void) {
         }
     }
 
+    printf("5 new files created\n");
+
     for(;;);
 
     return 0;
 }
+
+/*
+============================================================================
+OUTPUT:
+5 new files created
+============================================================================
+*/

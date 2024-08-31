@@ -1,6 +1,16 @@
-// NAME - SHARDUL SISODIYA
-// ROLL NO - MT2024140
+/*
+============================================================================
+Name : 7.c
 
+Author : Shardul Sisodiya
+
+Description : Write a program to copy file1 into file2 ($cp file1 file2).
+
+Date: 19th Aug, 2024.
+============================================================================
+*/
+
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -18,7 +28,7 @@ int main(int argc, char** argv) {
     ssize_t bytes_read, bytes_written;
 
     int target_fd = open(target, O_RDONLY);
-    int dest_fd = open(dest, O_CREAT, 0644);
+    int dest_fd = open(dest, O_CREAT | O_WRONLY, 0644);
 
     if (target_fd == -1 || dest_fd == -1) {
         perror("\nSome error in the paths specified\n");
@@ -31,17 +41,24 @@ int main(int argc, char** argv) {
         bytes_written = write(dest_fd, buffer, bytes_read);
 
         if (bytes_written == -1) {
-            perror("\nThere was some error in writing the file\n");
-            return 1;
+            perror("There was some error in writing the file");
+            exit(EXIT_FAILURE);
         }
 
         bytes_read = read(target_fd, buffer, sizeof(buffer) - 1);
     }
 
-    printf("\nFile copied\n");
+    printf("File copied\n");
 
     close(target_fd);
     close(dest_fd);
 
     return 0;
 }
+
+/*
+============================================================================
+OUTPUT:
+File copied
+============================================================================
+*/

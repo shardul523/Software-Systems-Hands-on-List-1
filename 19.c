@@ -10,32 +10,34 @@ Date: 29th Aug, 2024.
 ============================================================================
 */
 
-#include <bits/time.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
 
-int main(void) {
-    struct timespec start_time, end_time;
-    pid_t pid;
-    double time_taken = 0;
+#define FREQ 1 / (4.7 * 1e9)
 
-    if (clock_gettime(CLOCK_MONOTONIC, &start_time) == -1) {
-        perror("Timer could not be started");
-        return 1;
-    }
+unsigned long long rdtsc() {
+    unsigned long long dst;
+    __asm__ __volatile__("rdtsc":"=A"(dst));
+    return dst;
+}
+
+int main(void) {
+    unsigned long long start_time, end_time;
+    pid_t pid;
+    long double time_taken = 0;
+
+    start_time = rdtsc();
 
     pid = getpid();
 
-    if (clock_gettime(CLOCK_MONOTONIC, &end_time) == -1) {
-        perror("Timer could not be stopped");
-        return 1;
-    }
+    end_time = rdtsc();
 
-    time_taken = end_time.tv_sec - start_time.tv_sec + (end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0;
+    time_taken = (end_time - start_time) * FREQ;
 
     printf("Process ID of the current process: %d\n", pid);
-    printf("Time taken for getpid system call: %.8lf sec\n", time_taken);
+    printf("Time taken for getpid system call: %.9Lf sec\n", time_taken);
 
     return 0;
 }
@@ -44,7 +46,7 @@ int main(void) {
 /*
 ============================================================================
 OUTPUT:
-Process ID of the current process: 36843
-Time taken for getpid system call: 0.00000641 sec
+Process ID of the current process: 19905
+Time taken for getpid system call: 0.000003023 sec
 ============================================================================
 */

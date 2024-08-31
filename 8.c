@@ -1,5 +1,17 @@
-// NAME - SHARDUL SISODIYA
-// ROLL NO - MT2024140
+/*
+============================================================================
+Name : 8.c
+
+Author : Shardul Sisodiya
+
+Description :
+Write a program to open a file in read only mode, read line by line and display each line as it is read.
+Close the file when end of file is reached.
+
+Date: 22nd Aug, 2024.
+============================================================================
+*/
+
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -46,10 +58,21 @@ int main(int argc, char** argv) {
 
     char ch;
 
-    for (int i = 0; i < line_no - 1; i++) {
-        printf("%s", lineBuff[i]);
+    for (int i = 0; i < line_no; i++) {
+        printf("Line %d: %s", i + 1, lineBuff[i]);
         scanf("%c", &ch);
     }
 
+    close(fd);
+
     return 0;
 }
+
+/*
+============================================================================
+OUTPUT:
+Line 1: This is the first line
+Line 2: This is the second line
+Line 3: This is the third line
+============================================================================
+*/

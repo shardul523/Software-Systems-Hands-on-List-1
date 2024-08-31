@@ -1,3 +1,15 @@
+/*
+============================================================================
+Name : 4.c
+
+Author : Shardul Sisodiya
+
+Description : Write a program to open an existing file with read write mode. Try O_EXCL flag also.
+
+Date: 10th Aug, 2024.
+============================================================================
+*/
+
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -16,8 +28,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("File opened successfully.\n");
-    printf("File descriptor value: %d\n", fdv);
+    printf("File opened successfully in read-write mode.\n");
 
     return 0;
 }
+
+
+/*
+============================================================================
+OUTPUT:
+File opened successfully in read-write mode.
+============================================================================
+*/
