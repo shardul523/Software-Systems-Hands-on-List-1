@@ -98,19 +98,31 @@ int main(int argc, char** argv) {
 
     switch (argv[1][0]) {
         case 'r':
-            if (readlock(fd) == -1) exit(EXIT_FAILURE);
+            if (readlock(fd) == 1) exit(EXIT_FAILURE);
             break;
         case 'w':
-            if (writelock(fd) == -1) exit(EXIT_FAILURE);
+            if (writelock(fd) == 1) exit(EXIT_FAILURE);
             break;
         default:
             printf("Invalid lock type\n");
             exit(EXIT_FAILURE);
     }
 
-    sleep(6);
+    getchar();
 
     unlock(fd);
 
     exit(EXIT_SUCCESS);
 }
+
+/*
+============================================================================
+COMMAND LINE ARGUMENTS: w sample.txt
+
+OUTPUT:
+Setting the write lock
+Write lock set successfully
+
+Lock removed successfully
+============================================================================
+*/

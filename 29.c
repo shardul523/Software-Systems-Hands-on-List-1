@@ -38,25 +38,26 @@ int main() {
     print_scheduler(pid);
 
     struct sched_param param;
-    param.sched_priority = sched_get_priority_max(SCHED_RR);
+    param.sched_priority = sched_get_priority_max(SCHED_FIFO);
 
     if (sched_setscheduler(pid, SCHED_FIFO, &param) == -1) {
         perror("Could not set the scheduler to SCHED_FIFO");
         exit(EXIT_FAILURE);
-    } else {
-        printf("Successfully set scheduler to SCHED_FIFO\n");
-        print_scheduler(pid);
     }
+
+    printf("Successfully set scheduler to SCHED_FIFO\n");
+    print_scheduler(pid);
+
 
     param.sched_priority = sched_get_priority_max(SCHED_RR);
 
     if (sched_setscheduler(pid, SCHED_RR, &param) == -1) {
         perror("Could not set the scheduler to SCHED_RR");
         exit(EXIT_FAILURE);
-    } else {
-        printf("Successfully set scheduler to SCHED_RR\n");
-        print_scheduler(pid);
     }
+
+    printf("Successfully set scheduler to SCHED_RR\n");
+    print_scheduler(pid);
 
     return 0;
 }

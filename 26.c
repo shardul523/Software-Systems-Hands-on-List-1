@@ -13,45 +13,54 @@ Date: 30th Aug, 2024.
 ============================================================================
 */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
 #include <sys/wait.h>
 
-int main(void) {
-    pid_t child_id = fork();
-    char* exec_name;
-    char** argv;
-    int argc;
+int main(){
+    pid_t child1, child2;
 
-    if (child_id == -1) {
-        perror("Process could not be forked");
-        return 1;
+    child1 = fork();
+
+    if (child1 == -1) {
+        perror("There was an error in creating child process to run the executable");
+        exit(EXIT_FAILURE);
     }
 
-    if (child_id != 0) {
-        printf("Enter the name of the executable to be executed: ");
-        scanf("%s", exec_name);
-
-        printf("Enter the number of input arguements to be passed: ");
-        scanf("%d", &argc);
-
-        argv = calloc(argc + 1, sizeof(char*));
-        argv[0] = exec_name;
-
-        printf("Enter the list of arguements: ");
-
-        for (int i = 1; i <= argc; i++)
-            scanf("%s", argv[i]);
-    } else {
-        execvp(exec_name, argv);
-        printf("Could not execute the process properly\n");
-        return 1;
+    if (child1 == 0) {
+        char* args[] = {"date", NULL};
+        execvp(args[0], args);
+        perror("There was an error in executing the executable");
+        exit(EXIT_FAILURE);
     }
 
-    printf("Waiting for executable to finish executing\n");
+    child2 = fork();
+
+    if (child2 == -1) {
+        perror("There was an error in creating the second child process");
+        exit(EXIT_FAILURE);
+    }
+
+    if (child2 == 0) {
+    	char *args[]={"echo", "Hello World", NULL};
+    	execvp(args[0],args);
+        perror("There was an error in executing the executable");
+        exit(EXIT_FAILURE);
+    }
+
     wait(NULL);
-    printf("Execution completed\n");
+    wait(NULL);
 
-    return 0;
+	printf("Main Process Exiting\n");
+	return 0;
 }
+
+/*
+============================================================================
+OUTPUT:
+Hello World
+Sat Aug 31 05:22:36 PM IST 2024
+Main Process Exiting
+============================================================================
+*/
